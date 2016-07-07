@@ -27,6 +27,8 @@
 
 ; Oh hey welcome to April 2014. -- AJT
 
+; July 2016: put it on github -- AJT
+
 (setq load-path (cons "~adam/.emacs-lib" load-path))
 
 ; Mac Stuff
