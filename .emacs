@@ -353,7 +353,13 @@
  '(mail-host-address "fsf.net")
  '(scroll-bar-mode (quote right))
  '(inhibit-startup-screen t)
- '(tool-bar-mode nil))
+ '(tool-bar-mode nil)
+ '(mouse-wheel-progressive-speed nil)
+ '(mouse-wheel-scroll-amount (quote (1 ((shift) . 1) ((control) . 1))))
+ '(package-selected-packages
+   (quote
+    (exec-path-from-shell py-autopep8 powershell icicles csharp-mode)))
+)
 
 ;(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-18"))
 ; or, on the netbook, 10-point.
@@ -362,7 +368,7 @@
     if  ( < (display-pixel-height) 800 ) 
 	( prog1 ( set-frame-size (selected-frame) 80 32) 
 	  ( add-to-list 'default-frame-alist '( font . "DejaVu Sans Mono-10")))
-	( prog1 ( set-frame-size (selected-frame) 80 43)
+	( prog1 ( set-frame-size (selected-frame) 80 40)
 	  (if ( string-equal system-type "darwin" )
 	      ( add-to-list 'default-frame-alist '( font . "Dejavu Sans Mono-18"))
 	    ( add-to-list 'default-frame-alist '( font . "Dejavu Sans Mono-12"))))))
@@ -382,6 +388,25 @@
   (package-initialize)
   (setq url-http-attempt-keepalives nil)
 )
+
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
+
+(when (require 'py-autopep8 nil 'noerror)
+  (add-hook 'python-mode-hook 'py-autopep8-enable-on-save))
   
 ; No more editing the wrong copy of stuff...
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+
+; Org-mode
+;; The following lines are always needed.  Choose your own keys.
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cb" 'org-iswitchb)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
