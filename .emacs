@@ -319,9 +319,16 @@
     (dired-mode . dired-font-lock-keywords))
   "Associations between modes and keywords")
 
-(setq c-basic-indent 2)
-(setq tab-width 4)
-(setq indent-tabs-mode nil )
+(defun hook-c ()
+  (setq c-set-style "k&r")
+  (setq c-basic-offset 4)
+  (setq indent-tabs-mode nil)
+  (c-set-offset 'knr-argdecl-intro 0))
+(add-hook 'c-mode-common-hook 'hook-c)
+
+;(setq c-basic-indent 2)
+;(setq tab-width 4)
+;(setq indent-tabs-mode nil )
 
 (defun fixssh ()
   "Run fixssh script for use in GNU screen with X forwarding"
@@ -344,22 +351,22 @@
 
 (setq user-mail-address "<adam@fsf.net>")
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(blink-cursor-mode nil)
  '(delete-selection-mode nil nil (delsel))
- '(mail-host-address "fsf.net")
- '(scroll-bar-mode (quote right))
  '(inhibit-startup-screen t)
- '(tool-bar-mode nil)
+ '(mail-host-address "fsf.net")
  '(mouse-wheel-progressive-speed nil)
  '(mouse-wheel-scroll-amount (quote (1 ((shift) . 1) ((control) . 1))))
  '(package-selected-packages
    (quote
-    (exec-path-from-shell py-autopep8 powershell icicles csharp-mode)))
-)
+    (coffee-mode ## yaml-mode exec-path-from-shell py-autopep8 powershell icicles csharp-mode)))
+ '(scroll-bar-mode (quote right))
+ '(tool-bar-mode nil)
+ '(coffee-tab-width 2))
 
 ;(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-18"))
 ; or, on the netbook, 10-point.
