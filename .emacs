@@ -356,6 +356,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(blink-cursor-mode nil)
+ '(coffee-tab-width 2)
  '(delete-selection-mode nil nil (delsel))
  '(inhibit-startup-screen t)
  '(mail-host-address "fsf.net")
@@ -363,10 +364,9 @@
  '(mouse-wheel-scroll-amount (quote (1 ((shift) . 1) ((control) . 1))))
  '(package-selected-packages
    (quote
-    (coffee-mode ## yaml-mode exec-path-from-shell py-autopep8 powershell icicles csharp-mode)))
+    (dockerfile-mode coffee-mode ## yaml-mode exec-path-from-shell py-autopep8 powershell icicles csharp-mode)))
  '(scroll-bar-mode (quote right))
- '(tool-bar-mode nil)
- '(coffee-tab-width 2))
+ '(tool-bar-mode nil))
 
 ;(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-18"))
 ; or, on the netbook, 10-point.
