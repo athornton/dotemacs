@@ -306,7 +306,7 @@
 	'perl-mode 'scheme-mode 'scribe-mode 'shell-script-mode 'cobol-mode
 	'dired-mode 'inform-mode 'tads2-mode 'pli-mode 'rexx-mode 
 	'docbook-xml-mode)
-  "List of modes to always start in font-lock-mode")
+  "List of modes to always start in font-lock-mode.")
 
 (defvar font-lock-mode-keyword-alist
   '((c++-c-mode . c-font-lock-keywords)
@@ -317,7 +317,7 @@
     (pli-mode . pli-font-lock-keywords)
     (rexx-mode . rexx-font-lock-keywords)
     (dired-mode . dired-font-lock-keywords))
-  "Associations between modes and keywords")
+  "Associations between modes and keywords.")
 
 (defun hook-c ()
   (setq c-set-style "k&r")
@@ -364,7 +364,7 @@
  '(mouse-wheel-scroll-amount (quote (1 ((shift) . 1) ((control) . 1))))
  '(package-selected-packages
    (quote
-    (markdown-mode dockerfile-mode coffee-mode ## yaml-mode exec-path-from-shell py-autopep8 powershell icicles csharp-mode)))
+    (flycheck markdown-mode dockerfile-mode coffee-mode ## yaml-mode exec-path-from-shell py-autopep8 powershell icicles csharp-mode)))
  '(scroll-bar-mode (quote right))
  '(tool-bar-mode nil))
 
@@ -404,6 +404,9 @@
   
 ; No more editing the wrong copy of stuff...
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+
+; Turn on flycheck globally
+(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ; Org-mode
 ;; The following lines are always needed.  Choose your own keys.
