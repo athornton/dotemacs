@@ -364,7 +364,7 @@
  '(mouse-wheel-scroll-amount (quote (1 ((shift) . 1) ((control) . 1))))
  '(package-selected-packages
    (quote
-    (flycheck markdown-mode dockerfile-mode coffee-mode ## yaml-mode exec-path-from-shell py-autopep8 powershell icicles csharp-mode)))
+    (groovy-mode flycheck markdown-mode dockerfile-mode coffee-mode ## yaml-mode exec-path-from-shell py-autopep8 powershell icicles csharp-mode)))
  '(scroll-bar-mode (quote right))
  '(tool-bar-mode nil))
 
