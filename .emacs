@@ -64,7 +64,7 @@
 ;; I disabled this since I want to avoid hitting Cmd-q accidentally.
 ;(global-set-key [(alt q)] 'save-buffers-kill-emacs)
 
-(require 'redo)
+(require 'redo+)
 (global-set-key [(alt z)] 'undo)
 (global-set-key [(alt shift z)] 'redo)
 
