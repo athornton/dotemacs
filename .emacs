@@ -173,6 +173,7 @@
 ;; (setq gc-cons-threshold 524288)		;512K
 ;; You know, that'd been there since at least '92.  Maybe it should
 ;;  be bigger in 2007.
+(setq gc-cons-threshold 50000000)               ; In 2017, 50M seems good.
 (setq gc-cons-threshold (max 4000000 gc-cons-threshold)) ; At least 4M
 (setq large-file-warning-threshold 100000000)   ; 100M?  Should be OK.
 (setq max-lisp-eval-depth 60000)                ; Or so Deech says.
@@ -217,9 +218,6 @@
       auto-save-timeout 20   ; number of seconds idle time before auto-save (default: 30)
       auto-save-interval 100 ; number of keystrokes between auto-saves (default: 300)
       )
-
-;; Go-mode
-(require 'go-mode-load)
 
 ;; Add Inform-mode
 
@@ -364,7 +362,7 @@
  '(mouse-wheel-scroll-amount (quote (1 ((shift) . 1) ((control) . 1))))
  '(package-selected-packages
    (quote
-    (groovy-mode flycheck markdown-mode dockerfile-mode coffee-mode ## yaml-mode exec-path-from-shell py-autopep8 powershell icicles csharp-mode)))
+    (groovy-mode yaml-mode edit-server ess go-mode dockerfile-mode coffee-mode markdown-mode flycheck exec-path-from-shell py-autopep8 powershell icicles csharp-mode)))
  '(scroll-bar-mode (quote right))
  '(tool-bar-mode nil))
 
