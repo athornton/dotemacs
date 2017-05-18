@@ -29,6 +29,11 @@
 
 ; July 2016: put it on github -- AJT
 
+; Make gc-cons-threshold huge for init
+
+(setq gc-cons-threshold 100000000)
+
+
 (setq load-path (cons "~adam/.emacs-lib" load-path))
 
 ; Mac Stuff
@@ -173,7 +178,6 @@
 ;; (setq gc-cons-threshold 524288)		;512K
 ;; You know, that'd been there since at least '92.  Maybe it should
 ;;  be bigger in 2007.
-(setq gc-cons-threshold 50000000)               ; In 2017, 50M seems good.
 (setq gc-cons-threshold (max 4000000 gc-cons-threshold)) ; At least 4M
 (setq large-file-warning-threshold 100000000)   ; 100M?  Should be OK.
 (setq max-lisp-eval-depth 60000)                ; Or so Deech says.
@@ -218,6 +222,29 @@
       auto-save-timeout 20   ; number of seconds idle time before auto-save (default: 30)
       auto-save-interval 100 ; number of keystrokes between auto-saves (default: 300)
       )
+
+
+;; ;;;;;;; Language support
+
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  ;; company is an optional dependency. You have to
+  ;; install it separately via package-install
+  ;; `M-x package-install [ret] company`
+  (company-mode +1))
+
+;; aligns annotation to the right hand side
+(setq company-tooltip-align-annotations t)
+
+;; formats the buffer before saving
+(add-hook 'before-save-hook 'tide-format-before-save)
+
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
 
 ;; Add Inform-mode
 
@@ -362,7 +389,7 @@
  '(mouse-wheel-scroll-amount (quote (1 ((shift) . 1) ((control) . 1))))
  '(package-selected-packages
    (quote
-    (groovy-mode yaml-mode edit-server ess go-mode dockerfile-mode coffee-mode markdown-mode flycheck exec-path-from-shell py-autopep8 powershell icicles csharp-mode)))
+    (company tide groovy-mode yaml-mode edit-server ess go-mode dockerfile-mode coffee-mode markdown-mode flycheck exec-path-from-shell py-autopep8 powershell icicles csharp-mode)))
  '(scroll-bar-mode (quote right))
  '(tool-bar-mode nil))
 
@@ -375,7 +402,9 @@
 	  ( add-to-list 'default-frame-alist '( font . "DejaVu Sans Mono-10")))
 	( prog1 ( set-frame-size (selected-frame) 80 40)
 	  (if ( string-equal system-type "darwin" )
-	      ( add-to-list 'default-frame-alist '( font . "Dejavu Sans Mono-18"))
+	      (if ( < (display-pixel-height) 2000) ; 4K monitors...
+		  ( add-to-list 'default-frame-alist '( font . "Dejavu Sans Mono-18"))
+		( add-to-list 'default-frame-alist '( font . "Dejavu Sans Mono-24")))
 	    ( add-to-list 'default-frame-alist '( font . "Dejavu Sans Mono-12"))))))
 
 
@@ -418,3 +447,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(setq gc-cons-threshold 4000000) ; Reset to a sane small value after init.
