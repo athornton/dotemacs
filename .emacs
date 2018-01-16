@@ -351,9 +351,18 @@
   (c-set-offset 'knr-argdecl-intro 0))
 (add-hook 'c-mode-common-hook 'hook-c)
 
-;(setq c-basic-indent 2)
-;(setq tab-width 4)
-;(setq indent-tabs-mode nil )
+(setq-default c-basic-indent 4
+	      tab-width 4
+	      indent-tabs-mode nil )
+(global-whitespace-mode 1)
+(setq whitespace-style '(face             ;; enable visualization via faces
+                         trailing         ;; show trailing blanks
+                         tabs             ;; show tabs
+                         empty            ;; empty lines at beginning/end of buffer
+                         indentation      ;; "wrong" indentation according to indent-tabs-mode
+                         space-after-tab  ;; mixing
+                         space-before-tab ;; mixing
+                         ))
 
 (defun fixssh ()
   "Run fixssh script for use in GNU screen with X forwarding"
