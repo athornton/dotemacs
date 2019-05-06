@@ -400,7 +400,7 @@
  '(mouse-wheel-scroll-amount (quote (1 ((shift) . 1) ((control) . 1))))
  '(package-selected-packages
    (quote
-    (company tide groovy-mode yaml-mode edit-server ess go-mode dockerfile-mode coffee-mode markdown-mode flycheck exec-path-from-shell py-autopep8 powershell icicles csharp-mode)))
+    (ox-reveal company tide groovy-mode yaml-mode edit-server ess go-mode dockerfile-mode coffee-mode markdown-mode flycheck exec-path-from-shell py-autopep8 powershell icicles csharp-mode)))
  '(scroll-bar-mode (quote right))
  '(tool-bar-mode nil))
 
@@ -423,13 +423,12 @@
 (when (> emacs-major-version 23)
   (require 'package)
   (add-to-list 'package-archives
-           '("melpa" . "http://melpa.org/packages/"))
-
-
-; Apparently needed for the package auto-complete (why?)
+               '("melpa" . "http://melpa.org/packages/") t)
+  ; Apparently needed for the package auto-complete (why?)
   (add-to-list 'package-archives
            '("melpa" . "http://melpa.milkbox.net/packages/") t)
-
+  (add-to-list 'package-archives
+               '("org" . "https://orgmode.org/elpa/") t)
   (package-initialize)
   (setq url-http-attempt-keepalives nil)
 )
@@ -462,3 +461,9 @@
 (setq gc-cons-threshold 4000000) ; Reset to a sane small value after init.
 
 ;;; .emacs ends here
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
