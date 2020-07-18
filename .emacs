@@ -1,6 +1,7 @@
-;;; dotemacs -- Adam Thornton's .emacs
+;;; .emacs --- My .emacs file
+
 ;;; Commentary:
-; Maintenance Log:
+					; Maintenance Log:
 ; 01/31/92 DEB commented out LaTeX-mode definition and set .tex files
 ;              to invoke tex-mode plus auto-fill-mode.
 ;
@@ -394,25 +395,76 @@
  '(mouse-wheel-scroll-amount (quote (1 ((shift) . 1) ((control) . 1))))
  '(package-selected-packages
    (quote
+<<<<<<< HEAD
     (ox-reveal company tide groovy-mode yaml-mode edit-server ess go-mode dockerfile-mode coffee-mode markdown-mode flycheck exec-path-from-shell py-autopep8 powershell icicles csharp-mode)))
  '(scroll-bar-mode (quote right))
  '(tool-bar-mode nil)
+=======
+    (rainbow-delimiters ox-reveal company tide groovy-mode yaml-mode edit-server ess go-mode dockerfile-mode coffee-mode markdown-mode flycheck exec-path-from-shell py-autopep8 powershell icicles csharp-mode)))
+ '(scroll-bar-mode (quote right))
+ '(tool-bar-mode nil)
+ '(js-indent-level 2)
+>>>>>>> f6e5d75... Add Fira Code/ligature support
  '(typescript-indent-level 2))
 
-;(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-18"))
+;(add-to-list 'default-frame-alist '(font . "Fira Code-18"))
 ; or, on the netbook, 10-point.
 ; and make it shorter
 (if window-system (
+<<<<<<< HEAD
     if  ( < (display-pixel-height) 800 )
 	( prog1 ( set-frame-size (selected-frame) 80 32)
 	  ( add-to-list 'default-frame-alist '( font . "DejaVu Sans Mono-10")))
+=======
+    if  ( < (display-pixel-height) 800 ) 
+	( prog1 ( set-frame-size (selected-frame) 80 32) 
+	  ( add-to-list 'default-frame-alist '( font . "Fira Code-10")))
+>>>>>>> f6e5d75... Add Fira Code/ligature support
 	( prog1 ( set-frame-size (selected-frame) 80 40)
 	  (if ( string-equal system-type "darwin" )
 	      (if ( < (display-pixel-height) 2000) ; 4K monitors...
-		  ( add-to-list 'default-frame-alist '( font . "Dejavu Sans Mono-18"))
-		( add-to-list 'default-frame-alist '( font . "Dejavu Sans Mono-24")))
-	    ( add-to-list 'default-frame-alist '( font . "Dejavu Sans Mono-12"))))))
+		  ( add-to-list 'default-frame-alist '( font . "Fira Code-18"))
+		( add-to-list 'default-frame-alist '( font . "Fira Code-24")))
+	    ( add-to-list 'default-frame-alist '( font . "Fira Code-12"))))))
 
+;; Ligature support (for Fira Code)
+
+(when (window-system)
+  (set-frame-font "Fira Code"))
+(let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
+               (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
+               (36 . ".\\(?:>\\)")
+               (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
+               (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
+               (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
+               (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
+               (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
+               (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
+               (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
+               (48 . ".\\(?:x[a-zA-Z]\\)")
+               (58 . ".\\(?:::\\|[:=]\\)")
+               (59 . ".\\(?:;;\\|;\\)")
+               (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
+               (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
+               (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
+               (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
+               (91 . ".\\(?:]\\)")
+               (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
+               (94 . ".\\(?:=\\)")
+               (119 . ".\\(?:ww\\)")
+               (123 . ".\\(?:-\\)")
+               (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
+               (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
+               )
+             ))
+  (dolist (char-regexp alist)
+    (set-char-table-range composition-function-table (car char-regexp)
+                          `([,(cdr char-regexp) 0 font-shape-gstring]))))
+
+; But not in helm
+(add-hook 'helm-major-mode-hook
+          (lambda ()
+            (setq auto-composition-mode nil)))
 
 ; Add MELPA, so I can easily get icicles and other things
 (when (> emacs-major-version 23)
