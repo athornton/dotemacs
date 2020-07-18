@@ -540,6 +540,9 @@
   (add-to-list 'org-export-filter-src-block-functions 'org-html-end-frag)
   )
 
+(if (not (require 'ox-reveal nil t))
+    (message "`ox-reveal not found"))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
