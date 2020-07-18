@@ -405,8 +405,8 @@
 ; or, on the netbook, 10-point.
 ; and make it shorter
 (if window-system (
-    if  ( < (display-pixel-height) 800 ) 
-	( prog1 ( set-frame-size (selected-frame) 80 32) 
+    if  ( < (display-pixel-height) 800 )
+	( prog1 ( set-frame-size (selected-frame) 80 32)
 	  ( add-to-list 'default-frame-alist '( font . "Fira Code-10")))
 	( prog1 ( set-frame-size (selected-frame) 80 40)
 	  (if ( string-equal system-type "darwin" )
