@@ -395,10 +395,10 @@
  '(mouse-wheel-scroll-amount (quote (1 ((shift) . 1) ((control) . 1))))
  '(package-selected-packages
    (quote
-    (rainbow-delimiters ox-reveal company tide groovy-mode yaml-mode edit-server ess go-mode dockerfile-mode coffee-mode markdown-mode flycheck exec-path-from-shell py-autopep8 powershell icicles csharp-mode)))
+    (python-black rainbow-delimiters ox-reveal company tide groovy-mode yaml-mode edit-server ess go-mode dockerfile-mode coffee-mode markdown-mode flycheck exec-path-from-shell py-autopep8 powershell icicles csharp-mode)))
+ '(python-black-extra-args (quote ("-l 79")))
  '(scroll-bar-mode (quote right))
  '(tool-bar-mode nil)
- '(js-indent-level 2)
  '(typescript-indent-level 2))
 
 ;(add-to-list 'default-frame-alist '(font . "Fira Code-18"))
