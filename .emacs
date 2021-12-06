@@ -37,6 +37,10 @@
 ;;; Code:
 (setq gc-cons-threshold 100000000)
 
+(setq default-directory (concat (getenv "HOME") "/"))
+
+; Let's make tabs 4 spaces wide by default unless a mode overrides.
+(setq tab-width 4)
 
 (setq load-path (cons "~adam/.emacs-lib" load-path))
 
@@ -249,7 +253,7 @@
 ;; formats the buffer before saving
 (add-hook 'before-save-hook 'tide-format-before-save)
 
-(add-hook 'typescript-mode-hook #'setup-tide-mode)
+(add-hook 'typescript-mode-hook 'setup-tide-mode)
 
 ;; Add Inform-mode
 
@@ -357,7 +361,6 @@
 (add-hook 'c-mode-common-hook 'hook-c)
 
 ;(setq c-basic-indent 2)
-;(setq tab-width 4)
 ;(setq indent-tabs-mode nil )
 
 (defun fixssh ()
@@ -392,12 +395,12 @@
  '(js-indent-level 2)
  '(mail-host-address "fsf.net")
  '(mouse-wheel-progressive-speed nil)
- '(mouse-wheel-scroll-amount (quote (1 ((shift) . 1) ((control) . 1))))
+ '(mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . 1)))
  '(package-selected-packages
-   (quote
-    (python-black rainbow-delimiters ox-reveal company tide groovy-mode yaml-mode edit-server ess go-mode dockerfile-mode coffee-mode markdown-mode flycheck exec-path-from-shell py-autopep8 powershell icicles csharp-mode)))
- '(python-black-extra-args (quote ("-l 79")))
- '(scroll-bar-mode (quote right))
+   '(lsp-mode elpy use-package python-black rainbow-delimiters ox-reveal company tide groovy-mode yaml-mode edit-server ess go-mode dockerfile-mode coffee-mode markdown-mode flycheck exec-path-from-shell py-autopep8 powershell icicles csharp-mode))
+ '(python-black-extra-args '("-l 79"))
+ '(python-shell-interpreter "/usr/local/bin/python3")
+ '(scroll-bar-mode 'right)
  '(tool-bar-mode nil)
  '(typescript-indent-level 2))
 
@@ -458,12 +461,10 @@
 (when (> emacs-major-version 23)
   (require 'package)
   (add-to-list 'package-archives
-	       '("melpa" . "http://melpa.org/packages/"))
-
-
-; Apparently needed for the package auto-complete (why?)
+	       '("melpa" . "https://melpa.org/packages/") t)
+; Melpa-stable
   (add-to-list 'package-archives
-	       '("melpa" . "http://melpa.milkbox.net/packages/") t)
+	       '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 
   (package-initialize)
   (setq url-http-attempt-keepalives nil)
@@ -542,6 +543,14 @@
 
 (if (not (require 'ox-reveal nil t))
     (message "`ox-reveal not found"))
+
+; Add a bunch of Python stuff
+
+(use-package elpy
+  :ensure t
+  :defer t
+  :init
+  (advice-add 'python-mode :before 'elpy-enable))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
