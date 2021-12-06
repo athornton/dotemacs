@@ -117,7 +117,7 @@
                     (edit-server-start)))
 
 ;;-------------------------------------------------------
-;; begin sourcing of .bash_profile
+;; begin sourcing of shell profile
 
 ;; only do this on Mac OS X
 (when (string= system-type "darwin")
@@ -175,10 +175,11 @@
 
 
 
-  (src-source-shell-file (expand-file-name "~/.bash_profile")))
+  ;;  (src-source-shell-file (concat default-directory ".bash_profile")))
+    (src-source-shell-file (concat default-directory ".zshrc")))
 
 
-;; end sourcing of .bash_profile
+;; end sourcing of shell profile
 ;;-------------------------------------------------------
 
 
@@ -213,7 +214,7 @@
 (line-number-mode 1)                   ;; i like line numbers
 
 ;; Fix backup locations
-(defvar user-emacs-directory "~/.emacs.d/")
+(defvar user-emacs-directory (concat default-directory ".emacs.d/"))
 (defvar --backup-directory (concat user-emacs-directory "backups"))
 (if (not (file-exists-p --backup-directory))
     (make-directory --backup-directory t))
@@ -367,7 +368,8 @@
   "Run fixssh script for use in GNU screen with X forwarding."
   (interactive)
   (save-excursion
-    (let ((buffer (find-file-noselect "~/bin/fixssh")))
+    (let ((buffer (find-file-noselect
+		   (concat default-directory "/bin/fixssh"))))
       (set-buffer buffer)
       (setq buffer-read-only t)
       (goto-char (point-min))
@@ -420,42 +422,42 @@
 
 ;; Ligature support (for Fira Code)
 
-;; (when (window-system)
-;;   (set-frame-font "Fira Code"))
-;; (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
-;;                (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
-;;                (36 . ".\\(?:>\\)")
-;;                (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
-;;                (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
-;;                (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
-;;                (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
-;;                (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
-;;                (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
-;;                (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
-;;                (48 . ".\\(?:x[a-zA-Z]\\)")
-;;                (58 . ".\\(?:::\\|[:=]\\)")
-;;                (59 . ".\\(?:;;\\|;\\)")
-;;                (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
-;;                (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
-;;                (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
-;;                (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
-;;                (91 . ".\\(?:]\\)")
-;;                (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
-;;                (94 . ".\\(?:=\\)")
-;;                (119 . ".\\(?:ww\\)")
-;;                (123 . ".\\(?:-\\)")
-;;                (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
-;;                (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
-;;                )
-;;              ))
-;;   (dolist (char-regexp alist)
-;;     (set-char-table-range composition-function-table (car char-regexp)
-;;                           `([,(cdr char-regexp) 0 font-shape-gstring]))))
+(when (window-system)
+  (set-frame-font "Fira Code"))
+(let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
+               (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
+               (36 . ".\\(?:>\\)")
+               (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
+               (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
+               (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
+               (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
+               (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
+               (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
+               (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
+               (48 . ".\\(?:x[a-zA-Z]\\)")
+               (58 . ".\\(?:::\\|[:=]\\)")
+               (59 . ".\\(?:;;\\|;\\)")
+               (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
+               (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
+               (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
+               (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
+               (91 . ".\\(?:]\\)")
+               (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
+               (94 . ".\\(?:=\\)")
+               (119 . ".\\(?:ww\\)")
+               (123 . ".\\(?:-\\)")
+               (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
+               (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
+               )
+             ))
+  (dolist (char-regexp alist)
+    (set-char-table-range composition-function-table (car char-regexp)
+                          `([,(cdr char-regexp) 0 font-shape-gstring]))))
 
-;; ; But not in helm
-;; (add-hook 'helm-major-mode-hook
-;;           (lambda ()
-;;             (setq auto-composition-mode nil)))
+; But not in helm
+(add-hook 'helm-major-mode-hook
+          (lambda ()
+            (setq auto-composition-mode nil)))
 
 ; Add MELPA, so I can easily get icicles and other things
 (when (> emacs-major-version 23)
