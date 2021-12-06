@@ -42,7 +42,7 @@
 ; Let's make tabs 4 spaces wide by default unless a mode overrides.
 (setq tab-width 4)
 
-(setq load-path (cons "~adam/.emacs-lib" load-path))
+(setq load-path (cons (concat default-directory ".emacs-lib") load-path))
 
 ; Mac Stuff
 ;;; MacOS X specific stuff
@@ -382,7 +382,7 @@
     (add-hook 'post-command-hook
               (lambda () (setq cursor-type (if (eolp) '(bar . 6) t)))))
 
-(setq user-mail-address "<adam@fsf.net>")
+(setq user-mail-address "<athornton@gmail.com>")
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
