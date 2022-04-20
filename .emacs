@@ -32,6 +32,8 @@
 
 ; July 2016: put it on github -- AJT
 
+; December 2021: still going strong -- AJT
+
 ; Make gc-cons-threshold huge for init
 
 ;;; Code:
