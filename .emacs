@@ -197,6 +197,7 @@
 (setq default-case-fold-search nil)	;distingush upper/lower cases
 (setq require-final-newline t)		;ask
 (setq default-major-mode 'text-mode)	;some hooks...
+(setq initial-major-mode 'text-mode)	;2024, above line broke
 (setq shell-prompt-pattern "^[^#$%>)]*[#$%>)]")
 (setq text-mode-hook
       (function
@@ -401,7 +402,7 @@
  '(mouse-wheel-progressive-speed nil)
  '(mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . 1)))
  '(package-selected-packages
-   '(lsp-mode elpy use-package python-black rainbow-delimiters ox-reveal company tide groovy-mode yaml-mode edit-server ess go-mode dockerfile-mode coffee-mode markdown-mode flycheck exec-path-from-shell py-autopep8 powershell icicles csharp-mode))
+   '(lsp-mode elpy use-package python-black rainbow-delimiters org-re-reveal company tide groovy-mode yaml-mode edit-server ess go-mode dockerfile-mode coffee-mode markdown-mode flycheck exec-path-from-shell py-autopep8 powershell icicles csharp-mode))
  '(python-black-extra-args '("-l 79"))
  '(python-shell-interpreter "/usr/local/bin/python3")
  '(scroll-bar-mode 'right)
@@ -497,7 +498,7 @@
   ;; Borrowed from Rebecca Skinner
   "Setup 'org-mode' for exporting to reveal.js."
   (interactive)
-  (require 'ox-reveal)
+  (require 'org-re-reveal)
   (defvar code-block-history '())
 
   (defun org-html-start-end-frag (src backend _info)
@@ -545,8 +546,8 @@
   (add-to-list 'org-export-filter-src-block-functions 'org-html-end-frag)
   )
 
-(if (not (require 'ox-reveal nil t))
-    (message "`ox-reveal not found"))
+(if (not (require 'org-re-reveal nil t))
+    (message "`org-re-reveal not found"))
 
 ; Add a bunch of Python stuff
 
