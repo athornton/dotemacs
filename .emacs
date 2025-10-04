@@ -6,6 +6,7 @@
 ;              to invoke tex-mode plus auto-fill-mode.
 ;
 ;
+;
 ;	set up some globals
 ;
 ;
@@ -36,6 +37,8 @@
 
 ; Make gc-cons-threshold huge for init
 
+; September 2025: rest in peace, David Boyes -- AJT
+
 ;;; Code:
 (setq gc-cons-threshold 100000000)
 
@@ -45,6 +48,9 @@
 (setq tab-width 4)
 
 (setq load-path (cons (concat default-directory ".emacs-lib") load-path))
+;(add-to-list 'load-path "~/.emacs.d/site-lisp/emacs-application-framework/")
+;(require 'eaf)
+;(require 'eaf-browser)
 
 ; Mac Stuff
 ;;; MacOS X specific stuff
@@ -83,6 +89,8 @@
 (require 'redo+)
 (global-set-key [(alt z)] 'undo)
 (global-set-key [(alt shift z)] 'redo)
+
+(require 'ox-reveal)
 
 ;; More Mac stuff
 ;; Load Enhanced Carbon Emacs plugin
@@ -178,8 +186,8 @@
 
 
   ;;  (src-source-shell-file (concat default-directory ".bash_profile")))
-    (src-source-shell-file (concat default-directory ".zshrc")))
-
+;;    (src-source-shell-file (concat default-directory ".zshrc")))
+)
 
 ;; end sourcing of shell profile
 ;;-------------------------------------------------------
@@ -197,7 +205,6 @@
 (setq default-case-fold-search nil)	;distingush upper/lower cases
 (setq require-final-newline t)		;ask
 (setq default-major-mode 'text-mode)	;some hooks...
-(setq initial-major-mode 'text-mode)	;2024, above line broke
 (setq shell-prompt-pattern "^[^#$%>)]*[#$%>)]")
 (setq text-mode-hook
       (function
@@ -239,6 +246,11 @@
 
 ;; ;;;;;;; Language support
 
+
+;; Pulling out the super-opinionated stuff so I can work on third-party
+;; stuff without reformatting all kinds of things.
+
+
 (defun setup-tide-mode () "Set up tide-mode."
   (interactive)
   (tide-setup)
@@ -250,7 +262,7 @@
   ;; install it separately via package-install
   ;; `M-x package-install [ret] company`
   (company-mode +1))
-
+;
 ;; aligns annotation to the right hand side
 (setq company-tooltip-align-annotations t)
 
@@ -296,7 +308,7 @@
                     ("\\.cobol$" . cobol-mode)
 		    ("\\.CPY$" . cobol-mode)
 		    ("\\.cpy$" . cobol-mode)
-	    ) auto-mode-alist))
+	    ) auto-mode-alist ))
 
 ;; Fix case sensitivity
 (add-hook 'cobol-mode-hook '(lambda ()
@@ -364,14 +376,14 @@
   (c-set-offset 'knr-argdecl-intro 0))
 (add-hook 'c-mode-common-hook 'hook-c)
 
-;(setq c-basic-indent 2)
-;(setq indent-tabs-mode nil )
+(setq c-basic-indent 2)
+(setq indent-tabs-mode nil )
 
 (defun fixssh ()
   "Run fixssh script for use in GNU screen with X forwarding."
   (interactive)
   (save-excursion
-    (let ((buffer (find-file-noselect
+    (let ((buffer (find-file-noselect;
 		   (concat default-directory "/bin/fixssh"))))
       (set-buffer buffer)
       (setq buffer-read-only t)
@@ -385,7 +397,9 @@
 ;;; Some interesting stuff from Russ, good for finding stealth EOL whitespace
 (if window-system
     (add-hook 'post-command-hook
-              (lambda () (setq cursor-type (if (eolp) '(bar . 6) t)))))
+              (lambda () (setq cursor-type (if (eolp) '(bar . 6) t))))
+
+)
 
 (setq user-mail-address "<athornton@gmail.com>")
 (custom-set-variables
@@ -402,9 +416,9 @@
  '(mouse-wheel-progressive-speed nil)
  '(mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . 1)))
  '(package-selected-packages
-   '(lsp-mode elpy use-package python-black rainbow-delimiters org-re-reveal company tide groovy-mode yaml-mode edit-server ess go-mode dockerfile-mode coffee-mode markdown-mode flycheck exec-path-from-shell py-autopep8 powershell icicles csharp-mode))
+   '(org-re-reveal use-package-ensure-system-package lsp-mode elpy use-package python-black rainbow-delimiters ox-reveal company tide groovy-mode yaml-mode edit-server ess go-mode dockerfile-mode coffee-mode markdown-mode flycheck exec-path-from-shell py-autopep8 powershell icicles csharp-mode))
  '(python-black-extra-args '("-l 79"))
- '(python-shell-interpreter "/usr/local/bin/python3")
+ '(python-shell-interpreter "/opt/homebrew/bin/python3")
  '(scroll-bar-mode 'right)
  '(tool-bar-mode nil)
  '(typescript-indent-level 2))
@@ -420,42 +434,15 @@
 	  (if ( string-equal system-type "darwin" )
 	      (if ( < (display-pixel-height) 2000) ; 4K monitors...
 		  ( add-to-list 'default-frame-alist '( font . "Fira Code-18"))
-		( add-to-list 'default-frame-alist '( font . "Fira Code-24")))
-	    ( add-to-list 'default-frame-alist '( font . "Fira Code-12"))))))
+		( add-to-list 'default-frame-alist '( font . "Fira Code-28")))
+	    ( add-to-list 'default-frame-alist '( font . "Fira Code-12")))))
 
-;; Ligature support (for Fira Code)
+  ;; Fira Code ligatures
+  ;; (use-package fira-code-mode
+  ;;   :custom (fira-code-mode-disabled-ligatures '("[]" "x"))  ; ligatures you don't want
+  ;;   :hook prog-mode)                                         ; mode to enable fira-code-mode in
 
-(when (window-system)
-  (set-frame-font "Fira Code"))
-(let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
-               (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
-               (36 . ".\\(?:>\\)")
-               (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
-               (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
-               (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
-               (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
-               (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
-               (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
-               (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
-               (48 . ".\\(?:x[a-zA-Z]\\)")
-               (58 . ".\\(?:::\\|[:=]\\)")
-               (59 . ".\\(?:;;\\|;\\)")
-               (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
-               (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
-               (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
-               (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
-               (91 . ".\\(?:]\\)")
-               (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
-               (94 . ".\\(?:=\\)")
-               (119 . ".\\(?:ww\\)")
-               (123 . ".\\(?:-\\)")
-               (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
-               (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
-               )
-             ))
-  (dolist (char-regexp alist)
-    (set-char-table-range composition-function-table (car char-regexp)
-                          `([,(cdr char-regexp) 0 font-shape-gstring]))))
+  )
 
 ; But not in helm
 (add-hook 'helm-major-mode-hook
@@ -478,14 +465,15 @@
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
 
-(when (require 'py-autopep8 nil 'noerror)
-  (add-hook 'python-mode-hook 'py-autopep8-enable-on-save))
+; (when (require 'py-autopep8 nil 'noerror)
+;  (add-hook 'python-mode-hook 'py-autopep8-enable-on-save))
 
 ; No more editing the wrong copy of stuff...
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
 ; Turn on flycheck globally
-(add-hook 'after-init-hook #'global-flycheck-mode)
+; nope!
+;(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ; Org-mode
 ;; The following lines are always needed.  Choose your own keys.
@@ -550,20 +538,24 @@
     (message "`org-re-reveal not found"))
 
 ; Add a bunch of Python stuff
+; also nope
+;(require 'python-mode nil t)
+;(use-package elpy
+;  :ensure t
+;  :defer t
+;  :init
+;)
+; How about this, though?
+(setq python-indent-def-block-scale 1)
+(setq python-fill-docstring-style 'pep-257-nn)
 
-(use-package elpy
-  :ensure t
-  :defer t
-  :init
-  (advice-add 'python-mode :before 'elpy-enable))
 
+(setq gc-cons-threshold 4000000) ; Reset to a sane small value after init.
+(provide '.emacs)
+;;; .emacs ends here
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-
-(setq gc-cons-threshold 4000000) ; Reset to a sane small value after init.
-(provide '.emacs)
-;;; .emacs ends here
