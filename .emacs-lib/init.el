@@ -39,6 +39,9 @@
 
 ; September 2025: rest in peace, David Boyes -- AJT
 
+; July 2026: moved to .emacs-lib as init.el; symlinked into
+; $HOME/emacs.d along with (new) early-init.el
+
 ;;; Code:
 (setq gc-cons-threshold 100000000)
 
@@ -416,7 +419,13 @@
  '(mouse-wheel-progressive-speed nil)
  '(mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . 1)))
  '(package-selected-packages
-   '(org-re-reveal use-package-ensure-system-package lsp-mode elpy use-package python-black rainbow-delimiters ox-reveal company tide groovy-mode yaml-mode edit-server ess go-mode dockerfile-mode coffee-mode markdown-mode flycheck exec-path-from-shell py-autopep8 powershell icicles csharp-mode))
+   '(coffee-mode company csharp-mode dockerfile-mode edit-server elpy ess
+		 exec-path-from-shell flycheck go-mode groovy-mode
+		 icicles lsp-mode markdown-mode org-re-reveal
+		 ox-reveal ox-reveal-layouts powershell py-autopep8
+		 python-black rainbow-delimiters tide tree-sitter tss
+		 typescript-mode typst-ts-mode use-package
+		 use-package-ensure-system-package yaml-mode))
  '(python-black-extra-args '("-l 79"))
  '(python-shell-interpreter "/opt/homebrew/bin/python3")
  '(scroll-bar-mode 'right)
