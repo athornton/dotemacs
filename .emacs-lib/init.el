@@ -135,7 +135,7 @@
 ;; only do this on Mac OS X
 (when (string= system-type "darwin")
   ;; require common lisp extensions, for search
-  (require 'cl)
+  (require 'cl-lib)
 
 
   (defun src-shell-unescape (string)
